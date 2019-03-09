@@ -1,0 +1,45 @@
+# Windows
+Thumbs.db
+
+# Mac OS
+.DS_Store
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+# GoodSync
+_gsdata_/
+
+# Production and development
+/dist/
+/dist_test/
+/_reference/
+
+# Vue - local env files
+.env.local
+.env.*.local

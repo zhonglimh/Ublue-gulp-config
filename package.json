@@ -1,0 +1,31 @@
+{
+  "name": "ublue-gulp-config",
+  "version": "1.0.0",
+  "description": "Ublue Gulp4 Development Environment.",
+  "author": "Ryan",
+  "dependencies": {
+    "gulp": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "del": "^4.0.0",
+    "eslint": "^5.14.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-babel": "7",
+    "gulp-base64": "^0.1.3",
+    "gulp-changed": "^3.2.0",
+    "gulp-connect": "^5.7.0",
+    "gulp-file-include": "^2.0.1",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify": "^3.0.1",
+    "gulp-util": "^3.0.8",
+    "imagemin-pngquant": "^7.0.0",
+    "postcss-px-to-viewport": "^1.1.0"
+  }
+}
