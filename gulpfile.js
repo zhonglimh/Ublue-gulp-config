@@ -157,6 +157,7 @@ exports.clean = clean;
 exports.default = series(parallel(server, watchList));
 
 // init/build
-exports.init = series(clean, html, styles, images, scripts, copycss, copyjs, () => {
+exports.init = series(clean, html, styles, images, scripts, copycss, copyjs, (done) => {
     console.log('项目初始化构建完成...');
+    done();
 })
