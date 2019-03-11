@@ -1,5 +1,30 @@
 @import "_macro";
 
+*{
+	margin: 0;
+	padding: 0;
+}
+
 .demo{
-	font-family: $font-family; font-size: 5vm; text-align: center;
+	padding: 10% 0;
+	background-color: $brand-primary;
+	text-align: center;
+}
+
+.demo__title{
+	margin-bottom: 5%;
+	font-family: $font-family;
+	font-size: 80px;
+	color: #fff;
+}
+
+.demo__button{
+	display: inline-block;
+	padding: 10px 30px;
+	background: #fff;
+	border-radius: 3px;
+	font-size: 15px;
+	color: $brand-primary;
+	text-transform: uppercase;
+	text-decoration: none;
 }

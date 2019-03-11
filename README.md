@@ -65,7 +65,7 @@ $ yarn add ublue-gulp-config
 ```
 
 ```bash
-# 安装依赖 - install dependency
+# 安装依赖 - Install dependency
 $ npm install
 # or
 $ yarn install
@@ -74,23 +74,27 @@ $ yarn install
 ## 使用方法(Used)
 
 ```bash
-# 环境启动 - start it
-$ gulp
-
-# 项目初始化 - project initialization
+# 项目初始化 - Project initialization
 $ gulp init
 
-# 清理生产和开发 - clean up development or production
-$ gulp clean
+# 环境启动 - Start it
+$ gulp
 ```
 
-## 项目发布(Build)
+##环境切换(Using environment variables)
+
 ```bash
-# 发布测试环境- build for test environment
+# 发布测试环境 - Build for test environment
 $ gulp init --test
 
-# 发布生产环境 - build for production environment
+# 发布生产环境 - Build for production environment
 $ gulp init --build
+
+# 清理生产目录 - Clean up development or production
+$ gulp clean
+
+# 清理指定环境目录 - Clean up the specified environment directory
+$ gulp clean --test
 ```
 
 ## 开源许可(License)
