@@ -1,6 +1,6 @@
 # Gulp4 工作流配置(Gulp4 workflow config)
 
-![npm](https://img.shields.io/npm/v/ublue-gulp-config.svg?style=flat-square)
+[![Build Status](https://travis-ci.org/zhonglimh/Ublue-gulp-config.svg?branch=master)](https://travis-ci.org/zhonglimh/Ublue-gulp-config) ![npm](https://img.shields.io/npm/dt/ublue-gulp-config.svg) ![npm](https://img.shields.io/npm/v/ublue-gulp-config.svg)
 
 ## 简介(Introduction)
 
@@ -94,4 +94,4 @@ $ gulp init --build
 ```
 
 ## 开源许可(License)
-[MIT](https://github.com/vuejs/vuepress/blob/master/LICENSE)
+[MIT](https://opensource.org/licenses/MIT)
