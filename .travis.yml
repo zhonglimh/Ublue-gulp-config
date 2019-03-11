@@ -1,15 +1,18 @@
-ci:
-  platform:
-    NPM:
-      # We use an older version that doesn't use ES6+ features to support back to node 0.10
-      eslint:
-        tests:
-          outdated: skip
-      # We use an older version that doesn't use ES6+ features to support back to node 0.10
-      expect:
-        tests:
-          outdated: skip
-      # We use an older version that doesn't use ES6+ features to support back to node 0.10
-      mocha:
-        tests:
-          outdated: skip
+sudo: false
+
+language: node_js
+node_js: stable
+
+before_install:
+  - yarn global add gulp-cli
+
+script:
+  - gulp init
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email:
+    - hi@bluesdream.com
