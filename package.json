@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Ublue Gulp4 Development Environment.",
   "author": "Ryan",
+  "license": "MIT",
   "dependencies": {
     "gulp": "^4.0.0"
   },

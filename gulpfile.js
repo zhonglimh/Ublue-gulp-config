@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /* = Gulp组件
 -------------------------------------------------------------- */
@@ -20,13 +20,13 @@ const { series, parallel, src, dest, watch } = require('gulp'), // Gulp
     pxtoviewport        = require('postcss-px-to-viewport'),    // PX 转 Viewport
     del                 = require('del');                       // 文件清理
 
-// 引入配置文件
+// include config
 const config = require('./gulp.config');
 
-// 配置sass
+// sass compiler
 sass.compiler = require('node-sass');
 
-/* = 配置切换( Config Witch )
+/* = Environmental Witch
 -------------------------------------------------------------- */
 if ( gutil.env.test === true ) {
     config.isDev = false;
@@ -41,9 +41,9 @@ if ( gutil.env.build === true ) {
     config.pathsDev = config.pathsBuild;
 }
 
-/* = 开发环境( Ddevelop Task )
+/* = Task List
 -------------------------------------------------------------- */
-// HTML处理
+// html
 function html() {
     return src( config.paths.html+'/**/!(m_)*.html' )
         .pipe( config.isDev ? changed( config.pathsDev.html ) : gutil.noop() )
@@ -56,7 +56,7 @@ function html() {
 };
 exports.html = html;
 
-// 样式处理
+// styles
 function styles() {
     const processors = [
         pxtoviewport({
@@ -76,7 +76,7 @@ function styles() {
 };
 exports.styles = styles;
 
-// 图片压缩
+// images
 function images() {
     return src( [config.paths.image+'/**/*','!'+config.paths.image+'/sprite/*'] )
         .pipe( config.isDev ? changed( config.pathsDev.html ) : gutil.noop() )
@@ -90,7 +90,7 @@ function images() {
 };
 exports.images = images;
 
-// JS 文件压缩&重命名
+// scripts
 function scripts() {
     return src([config.paths.script+'/*.js'])
         .pipe(config.isDev ? sourcemaps.init() : gutil.noop())
@@ -106,33 +106,33 @@ function scripts() {
 };
 exports.scripts = scripts;
 
-// 本地服务器
+// local server
 function server() {
     connect.server({
-        name: '当前为：' + (config.isDev ? '开发环境' : '生产环境'),
+        name: 'ENV：' + (config.isDev ? 'Development' : 'Production'),
         root: config.pathsDev.html,
-        // host: '192.168.154.97',
+        // host: 'Local IP',
         port: 8000,
         livereload: true
     });
 };
 exports.server = server;
 
-// 拷贝CSS
+// copy css
 function copycss() {
     return src( [config.paths.html+'/lib/*.css'] )
         .pipe(dest( config.pathsDev.css ));
 };
 exports.copycss = copycss;
 
-// 拷贝JS
+// copy js
 function copyjs() {
     return src( [config.paths.html+'/lib/*.js'] )
         .pipe(dest( config.pathsDev.script ));
 };
 exports.copyjs = copyjs;
 
-// 监听任务
+// watch
 function watchList() {
     watch(config.paths.html + '/**/*.html', series(html));
     watch(config.paths.css + '/*.scss', series(styles));
@@ -145,7 +145,7 @@ function watchList() {
 
 exports.watch = watchList;
 
-// 清理环境
+// clean
 function clean() {
     return del([config.pathsDev.html + '/**']).then(() => {
         console.log('项目初始化清理完成...');
@@ -153,10 +153,10 @@ function clean() {
 }
 exports.clean = clean;
 
-// 默认任务
+// default
 exports.default = series(parallel(server, watchList));
 
-// 初始化任务
+// init/build
 exports.init = series(clean, html, styles, images, scripts, copycss, copyjs, () => {
     console.log('项目初始化构建完成...');
 })
