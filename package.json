@@ -1,6 +1,6 @@
 {
   "name": "ublue-gulp-config",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ublue Gulp4 Development Environment.",
   "author": "Ryan",
   "license": "MIT",
@@ -28,5 +28,22 @@
     "gulp-util": "^3.0.8",
     "imagemin-pngquant": "^7.0.0",
     "postcss-px-to-viewport": "^1.1.0"
-  }
+  },
+  "main": "gulp.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhonglimh/Ublue-gulp-config.git"
+  },
+  "keywords": [
+    "Gulp",
+    "Gulp4",
+    "ublue"
+  ],
+  "bugs": {
+    "url": "https://github.com/zhonglimh/Ublue-gulp-config/issues"
+  },
+  "homepage": "https://github.com/zhonglimh/Ublue-gulp-config#readme"
 }
