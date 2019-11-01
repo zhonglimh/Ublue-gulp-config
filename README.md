@@ -1,7 +1,7 @@
 # Gulp4 工作流配置(Gulp4 workflow config)
 
 <p>
-    <a href="https://travis-ci.org/zhonglimh/Ublue-gulp-config.svg?branch=master">
+    <a href="https://travis-ci.org/zhonglimh/Ublue-gulp-config">
         <img src="https://travis-ci.org/zhonglimh/Ublue-gulp-config.svg?branch=master">
     </a>
     <a href="https://npmcharts.com/compare/ublue-gulp-config?minimal=true">
