@@ -1,7 +1,9 @@
 {
     "name": "ublue-gulp-config",
     "description": "Ublue Gulp4 Development Environment.",
-    "version": "1.1.0",
+    "version": "1.1.1",
+    "author": "Ryan",
+    "license": "MIT",
     "devDependencies": {
         "@babel/core": "^7.6.4",
         "@babel/preset-env": "^7.6.3",
@@ -34,9 +36,18 @@
         "through2": "^3.0.1",
         "webpack-stream": "^5.2.1"
     },
-    "author": {
-        "name": "Ryan",
-        "url": "https://www.bluesdream.com"
+    "main": "gulp.config.js",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/zhonglimh/Ublue-gulp-config.git"
     },
-    "license": "MIT"
+    "keywords": [
+      "Gulp",
+      "Gulp4",
+      "ublue"
+    ],
+    "bugs": {
+      "url": "https://github.com/zhonglimh/Ublue-gulp-config/issues"
+    },
+    "homepage": "https://github.com/zhonglimh/Ublue-gulp-config#readme"
 }
