@@ -14,8 +14,7 @@
 
 ## 简介 - Introduction
 
-简单实用的前端自动化工作流配置，基于 Gulp4.x
-
+简单实用的前端自动化工作流配置，基于 Gulp4.x  
 Simple and practical front-end automated workflow configuration based on Gulp4.x
 
 ## 特性 - Features
@@ -57,8 +56,7 @@ Simple and practical front-end automated workflow configuration based on Gulp4.x
 
 ## 环境要求 - Pre Required
 
-如果你已经全局安装了 gulp 请先删除旧版本后再安装
-
+如果你已经全局安装了 gulp 请先删除旧版本后再安装  
 If you've previously installed gulp globally, please remove the old version
 
 ```bash
@@ -122,9 +120,11 @@ $ gulp clean --test
 
 ## 更新日志(Release History)
 
-**2019-10-31**
+**2019-10-31**  
 v1.1.0 - 个别插件过旧，处于安全因素进行替换，并重构部分代码。
-**2019-03-11**
+
+**2019-03-11**  
 v1.0.1 - 添加示例。[查看该版本存档](https://github.com/zhonglimh/Ublue-gulp-config/tree/v1.0.1)
-**2019-03-10**
+
+**2019-03-10**  
 v1.0.0 - 初始发布。
