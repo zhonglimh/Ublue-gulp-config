@@ -6,7 +6,11 @@
 }
 
 .demo{
-	padding: 10% 0;
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 	background-color: $brand-primary;
 	text-align: center;
 }
@@ -20,6 +24,7 @@
 
 .demo__button{
 	display: inline-block;
+	width: 200px;
 	padding: 10px 30px;
 	background: #fff;
 	border-radius: 3px;

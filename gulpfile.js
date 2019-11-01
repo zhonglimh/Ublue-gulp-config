@@ -1,163 +1,232 @@
-'use strict';
+/*
+ * @Author: Ryan
+ * @Date: 2019-05-06 14:50:28
+ * @Last Modified by: Ryan
+ * @Last Modified time: 2019-11-01 10:33:54
+ */
+'use strict'
 
-/* = Gulp组件
+/* = Gulp
 -------------------------------------------------------------- */
-const { series, parallel, src, dest, watch } = require('gulp'), // Gulp
-    sass                = require('gulp-sass'),                 // Sass预处理
-    autoprefixer        = require('gulp-autoprefixer'),         // 自动添加css浏览器前缀
-    uglify              = require('gulp-uglify'),               // JS文件压缩
-    imagemin            = require('gulp-imagemin'),             // 图片压缩
-    pngquant            = require('imagemin-pngquant'),         // 深度压缩
-    connect             = require('gulp-connect'),              // 本地服务器
-    sourcemaps          = require('gulp-sourcemaps'),	        // 来源地图
-    changed             = require('gulp-changed'),		        // 只操作有过修改的文件
-    fileinclude         = require('gulp-file-include'),	        // 文件引入
-    rename              = require('gulp-rename'),		        // 文件重命名
-    gutil               = require('gulp-util'),                 // gulp工具箱（包含了很多 task 会使用到的工具）
-    babel               = require('gulp-babel'),                // ES6转换
-    base64              = require('gulp-base64'),               // 图片转 base64
-    postcss             = require('gulp-postcss'),              // 样式转换插件
-    pxtoviewport        = require('postcss-px-to-viewport'),    // PX 转 Viewport
-    del                 = require('del');                       // 文件清理
+// include package
+const { series, parallel, src, dest, watch } = require('gulp')
+const sass = require('gulp-sass')
+const autoprefixer = require('autoprefixer')
+const uglify = require('gulp-uglify')
+const imagemin = require('gulp-imagemin')
+const pngquant = require('imagemin-pngquant')
+const connect = require('gulp-connect')
+const proxy = require('http-proxy-middleware')
+const sourcemaps = require('gulp-sourcemaps')
+const changed = require('gulp-changed')
+const fileinclude = require('gulp-file-include')
+const rename = require('gulp-rename')
+const babel = require('gulp-babel')
+const base64 = require('gulp-base64')
+const postcss = require('gulp-postcss')
+const pxtoviewport = require('postcss-px-to-viewport')
+const pxtorem = require('postcss-pxtorem')
+const del = require('del')
+const through2 = require('through2')
+const gulpWebpack = require('webpack-stream')
 
 // include config
-const config = require('./gulp.config');
+const config = require('./gulp.env')
 
 // sass compiler
-sass.compiler = require('node-sass');
-
-/* = Environmental Witch
--------------------------------------------------------------- */
-if ( gutil.env.test === true ) {
-    config.isDev = false;
-    config.sourceMap = false;
-    config.sassStyle = 'compressed';
-    config.pathsDev = config.pathsTest;
-}
-if ( gutil.env.build === true ) {
-    config.isDev = false;
-    config.sourceMap = false;
-    config.sassStyle = 'compressed';
-    config.pathsDev = config.pathsBuild;
-}
+sass.compiler = require('node-sass')
 
 /* = Task List
 -------------------------------------------------------------- */
 // html
-function html() {
-    return src( config.paths.html+'/**/!(m_)*.html' )
-        .pipe( config.isDev ? changed( config.pathsDev.html ) : gutil.noop() )
-        .pipe(fileinclude({
-            prefix: '@@',
-            basepath: '@file'
-        }))
-        .pipe(dest( config.pathsDev.html ))
+function html () {
+    return src(config.paths.html + '/**/!(m_)*.html')
+        .pipe(config.isDev ? changed(config.pathsDev.html) : through2.obj())
+        .pipe(
+            fileinclude({
+                prefix: '@@',
+                basepath: '@file'
+            })
+        )
+        .pipe(dest(config.pathsDev.html))
         .pipe(connect.reload())
-};
-exports.html = html;
+}
+exports.html = html
 
 // styles
-function styles() {
-    const processors = [
-        pxtoviewport({
-            viewportWidth: 750,
-            viewportUnit: 'vmin'
-        })
-    ];
-    return src(config.paths.css+'/*.scss')
-        .pipe(config.isDev ? sourcemaps.init() : gutil.noop())
-        .pipe(sass({outputStyle: config.sassStyle}).on('error', sass.logError))
-        .pipe(config.pxToViewport ? postcss(processors) : gutil.noop())
-        .pipe(autoprefixer(config.autoprefixerConfig))
+let processors
+switch (config.cssUnit) {
+    case 'rem':
+        processors = [pxtorem(config.pxtoremConfig)]
+        break;
+    case 'viewport':
+        processors = [pxtoviewport(config.pxtoviewportConfig)]
+        break;
+    default:
+        processors = ''
+        break;
+}
+function styles () {
+    return src(config.paths.css + '/*.scss')
+        .pipe(config.isDev ? sourcemaps.init() : through2.obj())
+        .pipe(
+            sass({
+                outputStyle: config.sassStyle
+            }).on('error', sass.logError)
+        )
+        .pipe(postcss([autoprefixer(config.autoprefixerConfig)]))
+        .pipe(processors ? postcss(processors) : through2.obj())
         .pipe(base64(config.base64Config))
-        .pipe(config.sourceMap ? sourcemaps.write('maps') : gutil.noop())
+        .pipe(
+            sass({
+                outputStyle: config.sassStyle
+            }).on('error', sass.logError)
+        )
+        .pipe(config.sourceMap ? sourcemaps.write('maps') : through2.obj())
         .pipe(dest(config.pathsDev.css))
         .pipe(connect.reload())
-};
-exports.styles = styles;
+}
+exports.styles = styles
 
 // images
-function images() {
-    return src( [config.paths.image+'/**/*','!'+config.paths.image+'/sprite/*'] )
-        .pipe( config.isDev ? changed( config.pathsDev.html ) : gutil.noop() )
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
-        }))
-        .pipe(dest( config.pathsDev.image ))
+function images () {
+    return src([
+        config.paths.image + '/**/*',
+        '!' + config.paths.image + '/sprite/*'
+    ])
+        .pipe(!config.isDev ? changed(config.pathsDev.html) : through2.obj())
+        .pipe(
+            !config.isDev
+                ? imagemin({
+                    progressive: true,
+                    svgoPlugins: [
+                        {
+                            removeViewBox: false
+                        }
+                    ],
+                    use: [pngquant()]
+                })
+                : through2.obj()
+        )
+        .pipe(dest(config.pathsDev.image))
         .pipe(connect.reload())
-};
-exports.images = images;
+}
+exports.images = images
 
 // scripts
-function scripts() {
-    return src([config.paths.script+'/*.js'])
-        .pipe(config.isDev ? sourcemaps.init() : gutil.noop())
-        .pipe(changed( config.pathsDev.script ))
+const webpackConfig = require('./webpack.config')
+function scripts () {
+    return src([config.paths.script + '/*.js'])
+        .pipe(config.isDev ? sourcemaps.init() : through2.obj())
+        .pipe(changed(config.pathsDev.script))
+        .pipe(config.useWebpack ? gulpWebpack(webpackConfig) : through2.obj())
         .pipe(babel({
-            presets: ['es2015']
+            presets: ['@babel/env']
         }))
         .pipe(uglify())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(config.sourceMap ? sourcemaps.write('maps') : gutil.noop())
-        .pipe(dest( config.pathsDev.script ))
+        .pipe(
+            rename({
+                suffix: '.min'
+            })
+        )
+        .pipe(config.sourceMap ? sourcemaps.write('maps') : through2.obj())
+        .pipe(dest(config.pathsDev.script))
         .pipe(connect.reload())
-};
-exports.scripts = scripts;
+}
+exports.scripts = scripts
 
 // local server
-function server() {
-    connect.server({
-        name: 'ENV：' + (config.isDev ? 'Development' : 'Production'),
+let serverOptions = {
+    name: 'ENV：' + config.env,
+    root: config.pathsDev.html,
+    host: '0.0.0.0',
+    port: 8000,
+    livereload: true
+}
+if (config.proxyOptions.changeOrigin) {
+    serverOptions = {
+        name: 'ENV：' + config.env,
         root: config.pathsDev.html,
-        // host: 'Local IP',
+        host: '0.0.0.0',
         port: 8000,
-        livereload: true
-    });
-};
-exports.server = server;
+        livereload: true,
+        middleware: () => {
+            return [proxy('/api', config.proxyOptions)]
+        }
+    }
+}
+function server () {
+    connect.server(serverOptions)
+}
+exports.server = server
 
 // copy css
-function copycss() {
-    return src( [config.paths.html+'/lib/*.css'] )
-        .pipe(dest( config.pathsDev.css ));
-};
-exports.copycss = copycss;
+function copycss () {
+    return src([config.paths.html + '/lib/*.css']).pipe(
+        dest(config.pathsDev.css)
+    )
+}
+exports.copycss = copycss
 
 // copy js
-function copyjs() {
-    return src( [config.paths.html+'/lib/*.js'] )
-        .pipe(dest( config.pathsDev.script ));
-};
-exports.copyjs = copyjs;
+function copyjs () {
+    return src([config.paths.html + '/lib/*.js']).pipe(
+        dest(config.pathsDev.script)
+    )
+}
+exports.copyjs = copyjs
 
 // watch
-function watchList() {
-    watch(config.paths.html + '/**/*.html', series(html));
-    watch(config.paths.css + '/*.scss', series(styles));
-    watch(config.paths.image + '/**/*', series(images));
-    watch(config.paths.script + '/*.js', series(scripts));
+function watchList () {
+    watch(config.paths.html + '/**/*.html', series(html))
+    watch(config.paths.css + '/*.scss', series(styles))
+    watch(config.paths.image + '/**/*', series(images))
+    watch(config.paths.script + '/*.js', series(scripts))
 
-    watch(config.paths.html + '/lib/*.css', series(copycss));
-    watch(config.paths.html + '/lib/*.js', series(copyjs));
+    watch(config.paths.html + '/lib/*.css', series(copycss))
+    watch(config.paths.html + '/lib/*.js', series(copyjs))
 }
-
-exports.watch = watchList;
+exports.watch = watchList
 
 // clean
-function clean() {
+function clean () {
     return del([config.pathsDev.html + '/**']).then(() => {
-        console.log('项目初始化清理完成...');
-    });
+        console.log(config.env + '项目初始化清理完成...')
+    })
 }
-exports.clean = clean;
+exports.clean = clean
 
 // default
-exports.default = series(parallel(server, watchList));
+exports.default = series(parallel(server, watchList))
 
 // init/build
-exports.init = series(clean, html, styles, images, scripts, copycss, copyjs, (done) => {
-    console.log('项目初始化构建完成...');
-    done();
-})
+exports.init = series(
+    clean,
+    html,
+    styles,
+    images,
+    scripts,
+    copycss,
+    copyjs,
+    done => {
+        console.log(config.env + '项目初始化构建完成...')
+        done()
+    }
+)
+
+
+// const webpackConfig = require('./webpack.config')
+// function assets () {
+//     return new Promise((resolve, reject) => {
+//         webpack(webpackConfig, (err, stats) => {
+//             if (err) {
+//                 return reject(err)
+//             }
+//             if (stats.hasErrors()) {
+//                 return reject(new Error(stats.compilation.errors.join('\n')))
+//             }
+//             resolve()
+//         })
+//     })
+// }
+// exports.assets = assets

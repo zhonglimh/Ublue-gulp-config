@@ -1,49 +1,42 @@
 {
-  "name": "ublue-gulp-config",
-  "version": "1.0.1",
-  "description": "Ublue Gulp4 Development Environment.",
-  "author": "Ryan",
-  "license": "MIT",
-  "dependencies": {
-    "gulp": "^4.0.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1",
-    "del": "^4.0.0",
-    "eslint": "^5.14.1",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-babel": "7",
-    "gulp-base64": "^0.1.3",
-    "gulp-changed": "^3.2.0",
-    "gulp-connect": "^5.7.0",
-    "gulp-file-include": "^2.0.1",
-    "gulp-imagemin": "^5.0.3",
-    "gulp-postcss": "^8.0.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglify": "^3.0.1",
-    "gulp-util": "^3.0.8",
-    "imagemin-pngquant": "^7.0.0",
-    "postcss-px-to-viewport": "^1.1.0"
-  },
-  "main": "gulp.config.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zhonglimh/Ublue-gulp-config.git"
-  },
-  "keywords": [
-    "Gulp",
-    "Gulp4",
-    "ublue"
-  ],
-  "bugs": {
-    "url": "https://github.com/zhonglimh/Ublue-gulp-config/issues"
-  },
-  "homepage": "https://github.com/zhonglimh/Ublue-gulp-config#readme"
+    "name": "ublue-gulp-config",
+    "description": "Ublue Gulp4 Development Environment.",
+    "version": "1.1.0",
+    "devDependencies": {
+        "@babel/core": "^7.6.4",
+        "@babel/preset-env": "^7.6.3",
+        "autoprefixer": "^9.7.0",
+        "babel-preset-es2015": "^6.24.1",
+        "del": "^5.1.0",
+        "eslint": "^6.6.0",
+        "eslint-config-standard": "^14.1.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^10.0.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^8.0.0",
+        "gulp-base64": "^0.1.3",
+        "gulp-changed": "^4.0.2",
+        "gulp-connect": "^5.7.0",
+        "gulp-file-include": "^2.1.0",
+        "gulp-imagemin": "^6.1.1",
+        "gulp-postcss": "^8.0.0",
+        "gulp-rename": "^1.4.0",
+        "gulp-sass": "^4.0.2",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-uglify": "^3.0.2",
+        "http-proxy-middleware": "^0.20.0",
+        "imagemin-pngquant": "^8.0.0",
+        "minimist": "^1.2.0",
+        "postcss-px-to-viewport": "^1.1.1",
+        "postcss-pxtorem": "^4.0.1",
+        "through2": "^3.0.1",
+        "webpack-stream": "^5.2.1"
+    },
+    "author": {
+        "name": "Ryan",
+        "url": "https://www.bluesdream.com"
+    },
+    "license": "MIT"
 }
