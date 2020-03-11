@@ -2,7 +2,7 @@
  * @Author: Ryan
  * @Date: 2019-05-06 14:50:28
  * @Last Modified by: Ryan
- * @Last Modified time: 2020-03-11 18:30:36
+ * @Last Modified time: 2020-03-11 18:38:33
  */
 'use strict'
 
@@ -215,3 +215,19 @@ exports.init = series(
         done()
     }
 )
+
+// const webpackConfig = require('./webpack.config')
+// function assets () {
+//     return new Promise((resolve, reject) => {
+//         webpack(webpackConfig, (err, stats) => {
+//             if (err) {
+//                 return reject(err)
+//             }
+//             if (stats.hasErrors()) {
+//                 return reject(new Error(stats.compilation.errors.join('\n')))
+//             }
+//             resolve()
+//         })
+//     })
+// }
+// exports.assets = assets

@@ -120,13 +120,18 @@ $ gulp clean --test
 ## 更新日志(Release History)
 
 **2020-03-11**
+v1.1.4 - update README.md
 v1.1.3 - fix NPM config
-v1.1.2 - update imagemin-pngquant 插件
+v1.1.2 - update imagemin-pngquant
+
 **2019-11-1**  
 v1.1.1 - fix NPM config
+
 **2019-10-31**  
 v1.1.0 - 个别插件过旧，处于安全因素进行替换，并重构部分代码
+
 **2019-03-11**  
 v1.0.1 - 添加示例 - [查看该版本存档](https://github.com/zhonglimh/Ublue-gulp-config/tree/v1.0.1)
+
 **2019-03-10**  
 v1.0.0 - 初始发布
