@@ -2,7 +2,7 @@
  * @Author: Ryan
  * @Date: 2019-05-06 14:50:28
  * @Last Modified by: Ryan
- * @Last Modified time: 2019-11-01 10:33:54
+ * @Last Modified time: 2020-03-11 18:30:36
  */
 'use strict'
 
@@ -94,18 +94,20 @@ function images () {
         config.paths.image + '/**/*',
         '!' + config.paths.image + '/sprite/*'
     ])
-        .pipe(!config.isDev ? changed(config.pathsDev.html) : through2.obj())
+        .pipe(!config.isDev ? changed(config.pathsDev.image) : through2.obj())
         .pipe(
             !config.isDev
-                ? imagemin({
-                    progressive: true,
-                    svgoPlugins: [
-                        {
-                            removeViewBox: false
-                        }
-                    ],
-                    use: [pngquant()]
-                })
+                ? imagemin([
+                    imagemin.gifsicle({ interlaced: true }),
+                    imagemin.mozjpeg({ quality: 75, progressive: true }),
+                    imagemin.optipng({ optimizationLevel: 5 }),
+                    imagemin.svgo({
+                        plugins: [
+                            { removeViewBox: true },
+                            { cleanupIDs: false }
+                        ]
+                    })
+                ])
                 : through2.obj()
         )
         .pipe(dest(config.pathsDev.image))
@@ -213,20 +215,3 @@ exports.init = series(
         done()
     }
 )
-
-
-// const webpackConfig = require('./webpack.config')
-// function assets () {
-//     return new Promise((resolve, reject) => {
-//         webpack(webpackConfig, (err, stats) => {
-//             if (err) {
-//                 return reject(err)
-//             }
-//             if (stats.hasErrors()) {
-//                 return reject(new Error(stats.compilation.errors.join('\n')))
-//             }
-//             resolve()
-//         })
-//     })
-// }
-// exports.assets = assets
